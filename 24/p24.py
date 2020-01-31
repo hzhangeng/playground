@@ -1,17 +1,11 @@
+TARGET = 24
+
 def calculate24_recur(nums, seq):
-    if len(nums) == 2:
-        a = max(nums[0], nums[1])
-        b = min(nums[0], nums[1])
-        new_nums = dict()
-        new_nums["+"] = a + b
-        new_nums["-"] = a - b
-        new_nums["*"] = a * b
-        if (b != 0):
-            new_nums["/"] = a / b
-        for op, num in new_nums.items():
-            if num == 24:
-                return (True, seq + ["%d%s%d" % (a, op, b)])
-        return (False, [])
+    if len(nums) == 1:
+        if nums[0] == TARGET:
+            return (True, seq)
+        else:
+            return (False, [])
     for i in range(len(nums)):
         for j in range(i+1, len(nums)):
             a = max(nums[i], nums[j])
