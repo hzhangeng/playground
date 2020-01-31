@@ -1,4 +1,4 @@
-def calculate24(nums, seq):
+def calculate24_recur(nums, seq):
     if len(nums) == 2:
         a = max(nums[0], nums[1])
         b = min(nums[0], nums[1])
@@ -10,9 +10,8 @@ def calculate24(nums, seq):
             new_nums["/"] = a / b
         for op, num in new_nums.items():
             if num == 24:
-                print (seq + ["%d%s%d" % (a, op, b)])
-                return True
-        return False
+                return (True, seq + ["%d%s%d" % (a, op, b)])
+        return (False, [])
     for i in range(len(nums)):
         for j in range(i+1, len(nums)):
             a = max(nums[i], nums[j])
@@ -28,13 +27,21 @@ def calculate24(nums, seq):
                 if k != i and k != j:
                     new_list.append(nums[k])
             for op, num in new_nums.items():
-                if (calculate24([num] + new_list, seq + ["%d%s%d" % (a, op, b)])):
-                    return True
-    return False
+                (result, sequence) = calculate24_recur([num] + new_list, seq + ["%d%s%d" % (a, op, b)])
+                if result:
+                    return (result, sequence)
+    return (False, [])
+
+def calculate24(nums):
+    return calculate24_recur(nums, [])
 
 if __name__ == "__main__":
-    print(calculate24([6, 4, 1, 1], []))
-    print(calculate24([4, 4, 9, 10], []))
+    for i in range(1, 11):
+        for j in range(i, 11):
+            for k in range(j, 11):
+                for l in range(k, 11):
+                    nums = [i, j, k, l]
+                    print (nums, calculate24(nums))
     pass
 
 
